@@ -37,13 +37,16 @@ import jdk.nashorn.internal.runtime.Version;
 /**
  * JSR-223 compliant script engine factory for Nashorn. The engine answers for:
  * <ul>
- * <li>names {@code "nashorn"}, {@code "Nashorn"}, {@code "js"}, {@code "JS"}, {@code "JavaScript"},
+ * <li>names {@code "nashorn"}, {@code "Nashorn"}, {@code "js"}, {@code "JS"},
+ * {@code "JavaScript"},
  * {@code "javascript"}, {@code "ECMAScript"}, and {@code "ecmascript"};</li>
- * <li>MIME types {@code "application/javascript"}, {@code "application/ecmascript"}, {@code "text/javascript"}, and
+ * <li>MIME types {@code "application/javascript"},
+ * {@code "application/ecmascript"}, {@code "text/javascript"}, and
  * {@code "text/ecmascript"};</li>
  * <li>as well as for the extension {@code "js"}.</li>
  * </ul>
- * Programs executing in engines created using {@link #getScriptEngine(String[])} will have the passed arguments
+ * Programs executing in engines created using
+ * {@link #getScriptEngine(String[])} will have the passed arguments
  * accessible as a global variable named {@code "arguments"}.
  *
  * @since 1.8u40
@@ -109,22 +112,22 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
     @Override
     public Object getParameter(final String key) {
         switch (key) {
-        case ScriptEngine.NAME:
-            return "javascript";
-        case ScriptEngine.ENGINE:
-            return "Oracle Nashorn";
-        case ScriptEngine.ENGINE_VERSION:
-            return Version.version();
-        case ScriptEngine.LANGUAGE:
-            return "ECMAScript";
-        case ScriptEngine.LANGUAGE_VERSION:
-            return "ECMA - 262 Edition 5.1";
-        case "THREADING":
-            // The engine implementation is not thread-safe. Can't be
-            // used to execute scripts concurrently on multiple threads.
-            return null;
-        default:
-            return null;
+            case ScriptEngine.NAME:
+                return "javascript";
+            case ScriptEngine.ENGINE:
+                return "Oracle Nashorn";
+            case ScriptEngine.ENGINE_VERSION:
+                return Version.version();
+            case ScriptEngine.LANGUAGE:
+                return "ECMAScript";
+            case ScriptEngine.LANGUAGE_VERSION:
+                return "ECMA - 262 Edition 5.1";
+            case "THREADING":
+                // The engine implementation is not thread-safe. Can't be
+                // used to execute scripts concurrently on multiple threads.
+                return null;
+            default:
+                return null;
         }
     }
 
@@ -140,7 +143,7 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
     }
 
     // default options passed to Nashorn script engine
-    private static final String[] DEFAULT_OPTIONS = new String[] { "-doe" };
+    public static final String[] DEFAULT_OPTIONS = new String[] { "-doe" };
 
     @Override
     public ScriptEngine getScriptEngine() {
@@ -160,8 +163,9 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
      * @param appLoader class loader to be used as script "app" class loader.
      * @return newly created script engine.
      * @throws SecurityException
-     *         if the security manager's {@code checkPermission}
-     *         denies {@code RuntimePermission("nashorn.setConfig")}
+     *                           if the security manager's {@code checkPermission}
+     *                           denies
+     *                           {@code RuntimePermission("nashorn.setConfig")}
      */
     public ScriptEngine getScriptEngine(final ClassLoader appLoader) {
         return newEngine(DEFAULT_OPTIONS, appLoader, null);
@@ -174,8 +178,10 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
      * @return newly created script engine.
      * @throws NullPointerException if {@code classFilter} is {@code null}
      * @throws SecurityException
-     *         if the security manager's {@code checkPermission}
-     *         denies {@code RuntimePermission("nashorn.setConfig")}
+     *                              if the security manager's
+     *                              {@code checkPermission}
+     *                              denies
+     *                              {@code RuntimePermission("nashorn.setConfig")}
      */
     public ScriptEngine getScriptEngine(final ClassFilter classFilter) {
         return newEngine(DEFAULT_OPTIONS, getAppClassLoader(), Objects.requireNonNull(classFilter));
@@ -188,41 +194,51 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
      * @return newly created script engine.
      * @throws NullPointerException if {@code args} is {@code null}
      * @throws SecurityException
-     *         if the security manager's {@code checkPermission}
-     *         denies {@code RuntimePermission("nashorn.setConfig")}
+     *                              if the security manager's
+     *                              {@code checkPermission}
+     *                              denies
+     *                              {@code RuntimePermission("nashorn.setConfig")}
      */
     public ScriptEngine getScriptEngine(final String... args) {
         return newEngine(Objects.requireNonNull(args), getAppClassLoader(), null);
     }
 
     /**
-     * Create a new Script engine initialized with the given arguments and the given class loader.
+     * Create a new Script engine initialized with the given arguments and the given
+     * class loader.
      *
-     * @param args arguments array passed to script engine.
+     * @param args      arguments array passed to script engine.
      * @param appLoader class loader to be used as script "app" class loader.
      * @return newly created script engine.
      * @throws NullPointerException if {@code args} is {@code null}
      * @throws SecurityException
-     *         if the security manager's {@code checkPermission}
-     *         denies {@code RuntimePermission("nashorn.setConfig")}
+     *                              if the security manager's
+     *                              {@code checkPermission}
+     *                              denies
+     *                              {@code RuntimePermission("nashorn.setConfig")}
      */
     public ScriptEngine getScriptEngine(final String[] args, final ClassLoader appLoader) {
         return newEngine(Objects.requireNonNull(args), appLoader, null);
     }
 
     /**
-     * Create a new Script engine initialized with the given arguments, class loader and class filter.
+     * Create a new Script engine initialized with the given arguments, class loader
+     * and class filter.
      *
-     * @param args arguments array passed to script engine.
-     * @param appLoader class loader to be used as script "app" class loader.
+     * @param args        arguments array passed to script engine.
+     * @param appLoader   class loader to be used as script "app" class loader.
      * @param classFilter class filter to use.
      * @return newly created script engine.
-     * @throws NullPointerException if {@code args} or {@code classFilter} is {@code null}
+     * @throws NullPointerException if {@code args} or {@code classFilter} is
+     *                              {@code null}
      * @throws SecurityException
-     *         if the security manager's {@code checkPermission}
-     *         denies {@code RuntimePermission("nashorn.setConfig")}
+     *                              if the security manager's
+     *                              {@code checkPermission}
+     *                              denies
+     *                              {@code RuntimePermission("nashorn.setConfig")}
      */
-    public ScriptEngine getScriptEngine(final String[] args, final ClassLoader appLoader, final ClassFilter classFilter) {
+    public ScriptEngine getScriptEngine(final String[] args, final ClassLoader appLoader,
+            final ClassFilter classFilter) {
         return newEngine(Objects.requireNonNull(args), appLoader, Objects.requireNonNull(classFilter));
     }
 
@@ -253,18 +269,16 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
 
     static {
         names = immutableList(
-                    "nashorn", "Nashorn",
-                    "js", "JS",
-                    "JavaScript", "javascript",
-                    "ECMAScript", "ecmascript"
-                );
+                "nashorn", "Nashorn",
+                "js", "JS",
+                "JavaScript", "javascript",
+                "ECMAScript", "ecmascript");
 
         mimeTypes = immutableList(
-                        "application/javascript",
-                        "application/ecmascript",
-                        "text/javascript",
-                        "text/ecmascript"
-                    );
+                "application/javascript",
+                "application/ecmascript",
+                "text/javascript",
+                "text/ecmascript");
 
         extensions = immutableList("js");
     }
@@ -278,6 +292,6 @@ public final class NashornScriptEngineFactory implements ScriptEngineFactory {
         // find the class loader of the context in which the script engine
         // is running so that classes will be found and loaded properly
         final ClassLoader ccl = Thread.currentThread().getContextClassLoader();
-        return (ccl == null)? NashornScriptEngineFactory.class.getClassLoader() : ccl;
+        return (ccl == null) ? NashornScriptEngineFactory.class.getClassLoader() : ccl;
     }
 }
