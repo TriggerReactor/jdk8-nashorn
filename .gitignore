@@ -1,3 +1,7 @@
+dist
+build
+NashornProfile.txt
+
 # Compiled class file
 *.class
 
